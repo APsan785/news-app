@@ -89,4 +89,9 @@ dependencies {
 //    implementation 'com.android.support:multidex:2.0.1'
     //folding cell
     implementation 'com.ramotion.foldingcell:folding-cell:1.2.3'
+
+    //rx java
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+
 }

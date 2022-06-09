@@ -15,6 +15,13 @@ import com.apsan.usingkoin.models.Articles
 import com.apsan.usingkoin.utils.LoadingState
 import com.apsan.usingkoin.viewmodel.NewsViewmodel
 import com.hoc081098.viewbindingdelegate.viewBinding
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.annotations.SchedulerSupport.IO
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.ObservableOnSubscribe
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -24,7 +31,7 @@ class HomeFragment : Fragment(R.layout.frag_home) {
     private val binding by viewBinding(FragHomeBinding::bind)
     private val MyViewModel by viewModel<NewsViewmodel>()
     val TAG = "tag"
-
+    private lateinit var query_string: Observable<String>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,20 +40,33 @@ class HomeFragment : Fragment(R.layout.frag_home) {
 
         initRecyclerView()
 
-        binding.newsSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    MyViewModel.getTopNewsFromRepo(newText)
+        query_string = Observable.create { emitter ->
+            binding.newsSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+//                    emitter.onComplete()
+                    return true
                 }
-                return true
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+
+                    if (newText != null) {
+                        emitter.onNext(newText)
+                    }
+
+                    return true
+                }
+
+            })
+        }
+
+        query_string.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                lifecycleScope.launch {
+                    MyViewModel.getTopNewsFromRepo(it)
+                }
             }
 
-        })
 
     }
 
@@ -71,10 +91,14 @@ class HomeFragment : Fragment(R.layout.frag_home) {
                 Log.d(TAG, "initRecyclerView: ${it.size}")
             }
             // loading state response observe
-            this.loadingState.observe(viewLifecycleOwner){
+            this.loadingState.observe(viewLifecycleOwner) {
                 when (it) {
-                    LoadingState.LOADING -> { binding.progressWheel.visibility = View.VISIBLE }
-                    else -> { binding.progressWheel.visibility = View.INVISIBLE }
+                    LoadingState.LOADING -> {
+                        binding.progressWheel.visibility = View.VISIBLE
+                    }
+                    else -> {
+                        binding.progressWheel.visibility = View.INVISIBLE
+                    }
                 }
             }
         }
