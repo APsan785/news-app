@@ -35,13 +35,14 @@ class HomeFragment : Fragment(R.layout.frag_home) {
 
         binding.newsSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    MyViewModel.getTopNewsFromRepo(query)
-                }
+
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    MyViewModel.getTopNewsFromRepo(newText)
+                }
                 return true
             }
 
