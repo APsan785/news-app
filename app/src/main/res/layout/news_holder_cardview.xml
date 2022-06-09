@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="8dp"
+    android:layout_marginHorizontal="7dp"
+    xmlns:folding-cell="http://schemas.android.com/apk/res-auto"
+    >
+
+    <com.ramotion.foldingcell.FoldingCell
+        android:id="@+id/folding_cell"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        folding-cell:additionalFlipsCount="1"
+        folding-cell:backSideColor="@color/main_orange_color"
+        folding-cell:animationDuration="1300"
+        folding-cell:cameraHeight="30"
+        >
+
+        <FrameLayout
+            android:id="@+id/cell_content_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#15B6BC"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:id="@+id/newsTitle1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title Text"
+                    android:textColor="@color/white"
+                    android:textSize="22sp"
+                    />
+
+                <TextView
+                    android:id="@+id/by_org1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="19sp"
+                    android:layout_gravity="end"
+                    android:text="by Reuter"/>
+
+                <TextView
+                    android:id="@+id/contentText"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="dfjdfndjfndljfnjfnajfnajfnadljfd"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/url"
+                    android:text="Read more on : www.dmdddfkdm"
+                    android:layout_marginTop="12dp"
+                    android:textSize="17sp"
+                    android:textColor="@color/purple_700"
+                    android:autoLink="web"
+                    android:linksClickable="true"
+                    />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/cell_title_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/main_blue_color"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            tools:visibility="gone"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:orientation="vertical"
+                >
+
+            <TextView
+                android:id="@+id/newsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Title Text"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                />
+
+                <TextView
+                    android:id="@+id/by_org"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="19sp"
+                    android:layout_gravity="end"
+                    android:text="by Reuter"/>
+
+
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </com.ramotion.foldingcell.FoldingCell>
+
+</androidx.cardview.widget.CardView>
